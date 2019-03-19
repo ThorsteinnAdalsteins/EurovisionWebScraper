@@ -8,5 +8,5 @@ fRun.init <- function(this.folder){
   }
 }
 
-fRun.init(this.folder = './R_scrapeEurovisionStatsWeb')
+fRun.init(this.folder = './R_Sources')
 rm(fRun.init)
