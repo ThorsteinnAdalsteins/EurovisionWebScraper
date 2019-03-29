@@ -1,4 +1,5 @@
 eventVotes.scrape<- function(url){
+  message(url)
   tryCatch(
     {
       page <- url %>% read_html()

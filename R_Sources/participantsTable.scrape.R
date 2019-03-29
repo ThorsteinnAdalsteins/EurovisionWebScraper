@@ -1,17 +1,15 @@
-juryTable.scrape <- function(url){
+participantTable.scrape <- function(url){
   message(url)
   tryCatch(
     {
       page <- url %>% read_html()
-      
-    the.table <- page %>%
-      html_node(
-        xpath = '//*[@id="frame-content"]/span/div[3]/div/div[2]/div/div/div[1]/table'
-      ) %>%
-      html_table()
+      the.table <- page %>%
+        html_node(
+          xpath = '//*[@id="frame-content"]/span/div[3]/div/div/div/table'
+          ) %>%
+        html_table()
   
-    return(the.table)
-    },   
+  return(the.table)},
   error = function(cond) {
     message(paste("URL does not seem to exist:", url))
     message("Here's the original error message:")

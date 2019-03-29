@@ -12,7 +12,6 @@ eventVotes.collect <- function(siteUrls){
   # bæti scoreboard aftan á allt og breyti í character vector
   urlBase3 <- as.character(sapply(urlBase2, str_c, 'scoreboard', sep = '/'))
   
-  
   #sæki lista yfir lönd í hverri yfirsíðu
   countrySelectors <- lapply(urlBase3, fGet.countrySelector)
   names(countrySelectors) <- urlBase3

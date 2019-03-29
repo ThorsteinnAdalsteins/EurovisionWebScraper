@@ -1,25 +1,25 @@
 
-fProc.juryTable <- function(siteUrls){
-  
+juryTable.collect <- function(siteUrls){
+  siteUrls
   # Jury table er ekki til fyrr en eftir 2016
-  # hér væri meira róbúst að henda út nöfnum sem eru ekki á þeim lista
-  known.events <- c('lisbon-2018', 'kyiv-2017', 'stockholm-2016')
-  permittedEvents <- dplyr::intersect(eventUrls, known.events)
-  ejectedEvents <- dplyr::setdiff(eventUrls, permittedEvents)
+  siteUrls.years <- siteUrls %>% 
+    str_extract('[:digit:][:digit:][:digit:][:digit:]') %>% 
+    as.numeric()
+  siteUrls <- siteUrls[siteUrls.years > 2015]
   
-  if(length(ejectedEvents)>0){
-    message('Ýtti út nokkrum eventUrls: ', paste(ejectedEvents, collapse = ', '))
-  }
-  
-  if(length(permittedEvents)==0){
+  if(length(siteUrls)==0){
     stop('Fann enga eventUrl sem búið er að tryggja að detail voting sé til um.\n',
          'Hér gæti þurft að bæta viðkomandi event-id inn í:\n',
          'fProc.votingDetails')
   }
+  
   ## #################################################################
   ##  Úrvinnsla
   ## hér er líka gert ráð fyrir að það séu eingöngu tvær forkeppnir:
-  urlBase <- str_c(urlHome, urlSite, sep = '/') %>%
+  urlHome <- 'https://eurovision.tv/event'
+  urlEvent <- c('first-semi-final', 'second-semi-final', 'grand-final')
+  
+  urlBase <- str_c(urlHome, siteUrls, sep = '/') %>%
     sapply(str_c,urlEvent, sep = '/') %>%
     str_c('voting-details', sep = '/')
 

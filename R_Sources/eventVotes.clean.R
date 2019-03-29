@@ -4,32 +4,14 @@ eventVotes.clean <- function(eventVotes.raw){
     stop('Fallið er aðeins byggt til þess að hreinsa eventVotes ramma')
   }
   
-  d1 <- eventVotes.raw %>% 
-    as_tibble() %>%
-    mutate(
-      path = path %>% str_replace('https://eurovision.tv/event/', '')
-    ) %>%
-    separate(
-      col = path,
-      into = c('competition_id', 'event', 'page', 'awarding_country'), 
-      sep = '/') 
-  
-  d2 <- d1 %>% 
-    mutate(
-      city_year = competition_id
-    ) %>%
-    separate(
-      col = city_year, 
-      into = c('host_city', 'year'), 
-      sep = '-'
-    )
+  d2 <- f.splitPath(eventVotes.raw)
   
   ret.d <- d2 %>% 
     select(
       year, 
       host_city, 
       event, 
-      awarding_country, 
+      awarding_country = path_country, 
       pts, 
       receiving_country = country,
       competition_id, page
@@ -39,3 +21,4 @@ eventVotes.clean <- function(eventVotes.raw){
   
   return(ret.d)
 }
+
