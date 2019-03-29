@@ -40,21 +40,18 @@ fProc.juryTable <- function(siteUrls){
   # sæki gögnin fyrir dómara í keppninni.. þetta tekur langan tíma
   all.juries.list <- lapply(
     all.urls, 
-    fGet.juryTable
+    juryTable.scrape                # <- hér er scraper fallið
   )
   
-  # skoða ef það komu gallar upp
-  # data.found <- lapply(all.juries.list, function(x) typeof(x) != 'logical') %>%
-  #  unlist(use.names = FALSE)
-  #all.urls[!data.found]
-  # ef engir gallar eru, er óhætt að setja slóðina á listana
   names(all.juries.list) <- all.urls
-  
   # renni þessu í einn lista
   d <- do.call(rbind, all.juries.list)
-  d$path <- str_replace(row.names(d), '\\.[:digit:]+', '')
-  row.names(d) <- NULL
   
-  return(d%>%as_tibble())
+  d$path <- str_replace(row.names(d), '\\.[:digit:]+', '')
+  
+  d.ret <- d %>% as_tibble()
+  class(d.ret) <- c(class(d.ret), 'eurovision.juryTable.raw')
+  
+  return(d.ret)
   
 }
