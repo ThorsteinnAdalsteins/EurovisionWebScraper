@@ -1,5 +1,4 @@
-
-fProc.eventVotes <- function(siteUrls){
+eventVotes.collect <- function(siteUrls){
   
   urlHome <- 'https://eurovision.tv/event'
   
@@ -34,7 +33,7 @@ fProc.eventVotes <- function(siteUrls){
   # þessi keyrsla tekur langan tíma ef mörg site eru sótt í einu
   all.votes.list <- lapply(
     all.urls, 
-    fGet.votesTable
+    eventVotes.scrape         # <- hér er scraper fallið
   )
   
   # skoða ef það komu gallar upp
@@ -44,11 +43,13 @@ fProc.eventVotes <- function(siteUrls){
   # ef engir gallar eru, er óhætt að setja slóðina á listana
   names(all.votes.list) <- all.urls
   
-  # renni þessu í einn lista
+  # renni þessu í einn lista og geymi slóðina til síðari vinnslu
   d <- do.call(rbind, all.votes.list)
   d$path <- str_replace(row.names(d), '\\.[:digit:]+', '')
-  row.names(d) <- NULL
   
-  return(d%>%as_tibble())
+  d.out <- d %>% as_tibble()
+  class(d.out) <- c(class(d.out), 'eurovision.eventVotes.raw')
+  
+  return(d.out)
 }
 

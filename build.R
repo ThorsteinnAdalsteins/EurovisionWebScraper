@@ -10,3 +10,9 @@ eventVotes <- fProc.eventVotes(siteUrls)
 juryTable <- fProc.juryTable(siteUrls)
 
 # unify and clean (check for errours)
+f.knownSites()
+
+
+d <- read.csv2('./_GognUt/CountryVotes 2008-2015.csv', stringsAsFactors = FALSE)
+
+d %>% as_tibble()
