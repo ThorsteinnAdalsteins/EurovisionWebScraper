@@ -1,6 +1,7 @@
 fProc.votingDetails <- function(eventUrls){
-  
-  known.events <- c('lisbon-2018', 'kyiv-2017', 'stockholm-2016')
+  message('Voting details')
+  # eventUrls <- siteUrls
+  known.events <- c('tel-aviv-2019', 'lisbon-2018', 'kyiv-2017', 'stockholm-2016')
   permittedEvents <- dplyr::intersect(eventUrls, known.events)
   ejectedEvents <- dplyr::setdiff(eventUrls, permittedEvents)
   
@@ -22,7 +23,7 @@ fProc.votingDetails <- function(eventUrls){
   #smíða aðal listan fyrir hverja yfirsíðu
   urlBase <- str_c(urlHome, urlSite, sep = '/') %>%
     sapply(str_c,urlEvent, sep = '/') %>%
-    str_c('voting-details', sep = '/')
+    str_c('results', sep = '/')
   
   #sæki lista yfir lönd í hverri yfirsíðu
   countrySelectors <- lapply(urlBase, fGet.countrySelector)
